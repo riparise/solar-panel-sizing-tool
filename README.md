@@ -8,10 +8,10 @@ In general, it's worth considering a somewhat oversized panel (e.g. 800-1400 Wat
 suboptimal conditions. ♻️
 
 ## Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [Output](#output)
-- [License](#license)
+- [Installation](#installation-)
+- [Usage](#usage-)
+- [Output](#output-)
+- [License](#license-)
 
 ## Installation 🚀
 
