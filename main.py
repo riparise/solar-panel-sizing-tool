@@ -78,7 +78,7 @@ def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_da
     fig, axs = plt.subplots(3, figsize=(12, 12), dpi=200)
 
     # Plot average solar radiation
-    plot_average_radiation(axs[0], solar_data)
+    plot_average_generation(axs[0], solar_data)
 
     # Plot energy generation versus panel size and payback time
     plot_energy_vs_size(axs[1], panel_sizes, energy_generated, payback_time)
@@ -92,7 +92,7 @@ def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_da
     plt.show()
 
 
-def plot_average_radiation(ax, solar_data):
+def plot_average_generation(ax, solar_data):
     solar_data['Month'] = solar_data.index.month
     seasons = {
         12: 'Winter', 1: 'Winter', 2: 'Winter',
@@ -118,13 +118,13 @@ def plot_average_radiation(ax, solar_data):
 
     ax.set_xlabel('Hour of the Day')
     ax.set_ylabel('Energy generated\n[kWh/kW]')
-    ax.set_title(f'Average Generation per kW of installed solar panels')
+    ax.set_title(f'Average Hourly Energy Generation per kW of installed solar panels')
     ax.set_xticks(range(24), [str(i) for i in range(24)])
     ax.legend()
 
 
 def plot_energy_vs_size(ax, panel_sizes, energy_generated, payback_time):
-    ax.set_title('Energy Generation and payoff time per panel size')
+    ax.set_title('Energy Generation and payoff time vs. panel size')
     ax.set_xlabel('Panel Size [W]')
     ax.set_ylabel('Energy Generation\n[kWh/Year]', color='b')
     ax.plot(panel_sizes, energy_generated, linestyle='-', color='b', marker='o')
@@ -137,7 +137,7 @@ def plot_energy_vs_size(ax, panel_sizes, energy_generated, payback_time):
 
 
 def plot_balance_over_time(ax, panel_sizes, balances, solar_data):
-    ax.set_title('Returns over time for different panel sizes', color='g')
+    ax.set_title('Return over time vs. panel size')
     ax.set_xlabel('Time [Years]')
     ax.set_ylabel('Balance\n[euros]')
     cmap = plt.get_cmap('viridis')
