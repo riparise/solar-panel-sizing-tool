@@ -12,3 +12,4 @@ subsidy_amount: 500
 pv_tech: crystSi
 panel_sizes: [600, 800, 1000, 1100, 1200, 1300, 1400]
 panel_price: 0.52
+unused_energy: 0.4

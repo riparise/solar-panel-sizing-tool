@@ -51,6 +51,7 @@ To use the Solar Panel Sizing Tool, follow these steps:
    - `pv_tech`: Cell technologies. Options are 'crystSi', 'CIS', 'CdTe', or 'Unknown'. Default: 'crystSi'
    - `panel_sizes`: List of the panel sizes to be analyzed in Watts. Default: [600, 800, 1000, 1100, 1200, 1300, 1400]
    - `panel_price`: Costs of the panels. Either as a single coefficient (in EUR per Watt of nominal power), or as a list with the cost of each panel size analyzed. Default: 0.52
+   - `unused_energy`: Percentage of the energy generated that is not directly used. Assuming there is no buyback. Defaults: 0.4
 
    Feel free to modify these parameters to match your specific setup and requirements.
 

@@ -30,6 +30,7 @@ def main():
     installation_costs = config['installation_costs']
     subsidy_amount = config['subsidy_amount']
     panel_sizes = config['panel_sizes']
+    unused_energy = config['unused_energy']
 
     # Retrieve solar radiation data
     solar_data = get_solar_radiation_data(latitude, longitude, panel_angle, panel_azimuth, pv_tech, horizon_data, system_losses)
@@ -42,14 +43,14 @@ def main():
                                                                    inverter_efficiency,
                                                                    energy_cost_per_kwh,
                                                                    subsidy_amount,
-                                                                   panel_sizes)
+                                                                   panel_sizes, unused_energy)
 
     # Plot and display results
     plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power)
 
 
 def calculate_trade_off(solar_data, max_inverter_power, panel_price, installation_costs,
-                        inverter_efficiency, energy_cost_per_kwh, subsidy_amount, panel_sizes):
+                        inverter_efficiency, energy_cost_per_kwh, subsidy_amount, panel_sizes, unused_energy):
     energy_generated, payback_time, balances = [], [], []
     if type(panel_price) is list and len(panel_price) != len(panel_sizes):
         raise ValueError('Panel price is not a single coefficient, but also not the same size as the panel sizes')
@@ -63,10 +64,10 @@ def calculate_trade_off(solar_data, max_inverter_power, panel_price, installatio
             initial_cost = panel_price[i] + installation_costs
         else:
             initial_cost = panel_size * panel_price + installation_costs
-        income = energy_per_hour * inverter_efficiency * energy_cost_per_kwh / 1000
+        income = energy_per_hour * inverter_efficiency * energy_cost_per_kwh * (1-unused_energy) / 1000
         balances.append(min(-initial_cost + subsidy_amount, 0) + np.cumsum(income))
 
-        total_energy_generated = sum(energy_per_hour) * inverter_efficiency
+        total_energy_generated = sum(energy_per_hour) * inverter_efficiency * (1-unused_energy)
         energy_generated.append(total_energy_generated / (num_years * 1000))
 
         payback_time.append(max(initial_cost - subsidy_amount, 0) / (energy_generated[-1] * energy_cost_per_kwh))
