@@ -46,7 +46,7 @@ def main():
                                                                    panel_sizes, unused_energy)
 
     # Plot and display results
-    plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power)
+    plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power, panel_angle, panel_azimuth)
 
 
 def calculate_trade_off(solar_data, max_inverter_power, panel_price, installation_costs,
@@ -75,7 +75,7 @@ def calculate_trade_off(solar_data, max_inverter_power, panel_price, installatio
     return energy_generated, payback_time, balances
 
 
-def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power):
+def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power, panel_angle, panel_azimuth):
     fig, axs = plt.subplots(3, figsize=(12, 12), dpi=200)
 
     # Plot average solar radiation
@@ -88,7 +88,8 @@ def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_da
     plot_balance_over_time(axs[2], panel_sizes, balances, solar_data)
 
     # Add title and improve layout
-    plt.suptitle("Solar Panel Study")
+    plt.suptitle("Solar Panel Study\n"
+                 f"Panel at {panel_angle}°, azimuth {panel_azimuth}°, {max_inverter_power} W inverter")
     plt.tight_layout(rect=(0.0, 0.03, 1.0, 0.95))
     plt.show()
 
