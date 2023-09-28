@@ -25,7 +25,7 @@ def main():
     system_losses = config['system_losses']
     inverter_efficiency = config['inverter_efficiency']
     max_inverter_power = config['max_inverter_power']
-    panel_price_per_watt = config['panel_price_per_watt']
+    panel_price = config['panel_price']
     energy_cost_per_kwh = config['energy_cost_per_kwh']
     installation_costs = config['installation_costs']
     subsidy_amount = config['subsidy_amount']
@@ -37,7 +37,7 @@ def main():
     # Calculate trade-off metrics
     energy_generated, payback_time, balances = calculate_trade_off(solar_data,
                                                                    max_inverter_power,
-                                                                   panel_price_per_watt,
+                                                                   panel_price,
                                                                    installation_costs,
                                                                    inverter_efficiency,
                                                                    energy_cost_per_kwh,
@@ -45,19 +45,24 @@ def main():
                                                                    panel_sizes)
 
     # Plot and display results
-    plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data)
+    plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power)
 
 
-def calculate_trade_off(solar_data, max_inverter_power, panel_price_per_watt, installation_costs,
+def calculate_trade_off(solar_data, max_inverter_power, panel_price, installation_costs,
                         inverter_efficiency, energy_cost_per_kwh, subsidy_amount, panel_sizes):
     energy_generated, payback_time, balances = [], [], []
+    if type(panel_price) is list and len(panel_price) != len(panel_sizes):
+        raise ValueError('Panel price is not a single coefficient, but also not the same size as the panel sizes')
 
     num_years = (solar_data.index[-1] - solar_data.index[0]).days / 365
 
-    for panel_size in panel_sizes:
+    for i, panel_size in enumerate(panel_sizes):
         # Calculate energy generation and financial metrics
         energy_per_hour = np.minimum(panel_size * solar_data['P'], max_inverter_power)
-        initial_cost = panel_size * panel_price_per_watt + installation_costs
+        if type(panel_price) is list:
+            initial_cost = panel_price[i] + installation_costs
+        else:
+            initial_cost = panel_size * panel_price + installation_costs
         income = energy_per_hour * inverter_efficiency * energy_cost_per_kwh / 1000
         balances.append(min(-initial_cost + subsidy_amount, 0) + np.cumsum(income))
 
@@ -69,8 +74,8 @@ def calculate_trade_off(solar_data, max_inverter_power, panel_price_per_watt, in
     return energy_generated, payback_time, balances
 
 
-def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data):
-    fig, axs = plt.subplots(3, figsize=(12, 12))
+def plot_results(panel_sizes, energy_generated, payback_time, balances, solar_data, max_inverter_power):
+    fig, axs = plt.subplots(3, figsize=(12, 12), dpi=200)
 
     # Plot average solar radiation
     plot_average_radiation(axs[0], solar_data)
@@ -112,26 +117,29 @@ def plot_average_radiation(ax, solar_data):
         ax.plot(seasonal_data.index, seasonal_data.values, alpha=0.8, color=season_colors[season], label=season)
 
     ax.set_xlabel('Hour of the Day')
-    ax.set_ylabel('Average Generation per kW of solar panels (kWh/kW)')
+    ax.set_ylabel('Energy generated\n[kWh/kW]')
+    ax.set_title(f'Average Generation per kW of installed solar panels')
     ax.set_xticks(range(24), [str(i) for i in range(24)])
     ax.legend()
 
 
 def plot_energy_vs_size(ax, panel_sizes, energy_generated, payback_time):
-    ax.set_xlabel('Panel Size (W)')
-    ax.set_ylabel('Energy Generated per Year (kWh)', color='b')
-    ax.plot(panel_sizes, energy_generated, linestyle='-', color='b')
+    ax.set_title('Energy Generation and payoff time per panel size')
+    ax.set_xlabel('Panel Size [W]')
+    ax.set_ylabel('Energy Generation\n[kWh/Year]', color='b')
+    ax.plot(panel_sizes, energy_generated, linestyle='-', color='b', marker='o')
     ax.tick_params(axis='y', labelcolor='b')
 
     ax_twin = ax.twinx()
-    ax_twin.set_ylabel('Payback Time (Years)', color='r')
-    ax_twin.plot(panel_sizes, payback_time, linestyle='-', color='r')
+    ax_twin.set_ylabel('Payback Time\n[Years]', color='r')
+    ax_twin.plot(panel_sizes, payback_time, linestyle='-', color='r', marker='o')
     ax_twin.tick_params(axis='y', labelcolor='r')
 
 
 def plot_balance_over_time(ax, panel_sizes, balances, solar_data):
-    ax.set_xlabel('Time (Years)', color='g')
-    ax.set_ylabel('Balance (euros)', color='g')
+    ax.set_title('Returns over time for different panel sizes', color='g')
+    ax.set_xlabel('Time [Years]')
+    ax.set_ylabel('Balance\n[euros]')
     cmap = plt.get_cmap('viridis')
     norm = plt.Normalize(min(panel_sizes), max(panel_sizes))
 

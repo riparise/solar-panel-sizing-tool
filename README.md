@@ -1,17 +1,18 @@
-# Solar Panel Sizing Tool
+# Solar Panel Sizing Tool ☀️
 
-The Solar Panel Sizing Tool is designed to help you analyze the ideal size of solar panels, in the context of the Berlin subsidy program for mini balcony solar powerplants, which limits the inverter power to 600 watts. This tool 
-calculates 
-various metrics, including energy generation and payback time, based on user-defined parameters and solar radiation data.
+The Solar Panel Sizing Tool is designed to help you analyze the ideal size of solar panels, tailored for the Berlin subsidy program for mini balcony solar powerplants. This program restricts the inverter power to 600 watts. 🏙️
+
+This tool calculates various metrics, including energy generation and payback time, based on user-defined parameters and solar radiation data. It provides insights to optimize your solar power setup. 📊
+
+In general, it's worth considering a somewhat oversized panel (e.g., 800-1400 watts) even if the inverter is limited to 600 watts. This ensures that you can still produce 600 watts even in suboptimal conditions. ♻️
 
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration](#configuration)
 - [Output](#output)
 - [License](#license)
 
-## Installation
+## Installation 🚀
 
 1. Clone the repository to your local machine:
 
@@ -31,28 +32,26 @@ various metrics, including energy generation and payback time, based on user-def
    pip install -r requirements.txt
    ```
 
-## Usage
+## Usage 🧰
 
 To use the Solar Panel Sizing Tool, follow these steps:
 
-1. Modify the YAML configuration file (`config.yml`) with your specific parameters. Here is the parameters list:
+1. Modify the YAML configuration file (`config.yml`) with your specific parameters. Here's the parameters list:
 
-- `latitude` and `longitude`: The geographical coordinates of your location.
-- `panel_azimuth` and `panel_angle`: The azimuth angle and tilt angle of your solar panels.
-- `max_inverter_power`: The maximum inverter power (limited to 600 watts for the Berlin subsidy program).
-- `latitude` and `longitude`: The geographical coordinates of your location.
-- `panel_azimuth` and `panel_angle`: The azimuth angle and tilt angle of your solar panels.
-- `max_inverter_power` and `inverter_efficiency`: The maximum inverter power and average efficiency (limited to 600 watts for the Berlin subsidy program).
-- `panel_price_per_watt` and `energy_cost_per_kwh`: Costs related to solar panel installation and energy rates.
-- `system_losses`: other losses that are not associated with inverter efficiency (panels degradation, glass transmittance, dirty, etc.)
-- `installation_costs` and `subsidy_amount`: Additional costs and subsidies.
-- `horizon_data`: list of elevation of horizon in degrees, at arbitrary number of equally spaced azimuths clockwise from north. (e.g. for a south faced façade with buildings nearby [90, 90, 90, 20, 20, 20, 90, 90])
-- `pv_tech`: Cell technologies. Options are 'crystSi', 'CIS', 'CdTe' or 'Unknown'}, defaults to 'crystSi'
-- `panel_sizes`: List of the panel sizes to be analysed in Watts
+   - `latitude` and `longitude`: The geographical coordinates of your location in degrees. Default: latitude=52.52 and longitude=13.40
+   - `panel_azimuth`: The azimuth angle of your solar panels in degrees (0=north, 90=east, 180=south, 270=west). Default: 245
+   - `panel_angle`: The tilt angle of your solar panels in degrees (0=horizontal, 90=vertical). Default: 90
+   - `max_inverter_power`: The maximum inverter power in Watts. Default: 600
+   - `inverter_efficiency`: The average inverter efficiency. Default: 0.91
+   - `energy_cost_per_kwh`: Energy rates in EUR/kWh. Default: 0.35
+   - `installation_costs` and `subsidy_amount`: Additional installation costs and subsidies in EUR. Default: subsidy=500 and installation_costs=30
+   - `system_losses`: Other losses that are not associated with inverter efficiency like panels degradation, glass transmittance, dirt, and more. Default: 0.05
+   - `horizon_data`: List of elevation of horizon in degrees, at arbitrary number of equally spaced azimuths clockwise from north. (e.g., for a south-faced façade with buildings nearby [90, 90, 90, 20, 20, 20, 90, 90])
+   - `pv_tech`: Cell technologies. Options are 'crystSi', 'CIS', 'CdTe', or 'Unknown'. Default: 'crystSi'
+   - `panel_sizes`: List of the panel sizes to be analyzed in Watts. Default: [600, 800, 1000, 1100, 1200, 1300, 1400]
+   - `panel_price`: Costs of the panels. Either as a single coefficient (in EUR per Watt of nominal power), or as a list with the cost of each panel size analyzed. Default: 0.52
 
-Feel free to modify these parameters to match your specific setup and requirements.
-
-   Adjust the values to match your specific setup and preferences.
+   Feel free to modify these parameters to match your specific setup and requirements.
 
 2. Run the main script using Python:
 
@@ -64,21 +63,20 @@ Feel free to modify these parameters to match your specific setup and requiremen
 
 3. Review the generated plots and metrics to make an informed decision about the ideal size of solar panels for your mini balcony solar powerplant.
 
-## Output
+## Output 📈
 
 The tool generates three plots to help you analyze your solar panel sizing:
 
 ![Output Example](/output_example.png)
 
-1. **Average Solar Radiation:** This plot shows the average historical solar generation (per kW of solar panel) throughout the day, categorized by seasons (Winter, Spring, Summer, Fall). use this graph mostly for sanity check if the 
-   input is correct (like if there is shadow in the early morning, you should see it in the graph)
+1. **Average Solar Radiation:** This plot shows the average historical solar generation (per kW of solar panel) throughout the day, categorized by seasons (Winter, Spring, Summer, Fall). Use this graph mostly for a sanity check if the input is correct (e.g., if there is shadow in the early morning, you should see it in the graph).
 
 2. **Energy Generation vs. Panel Size and Payback Time:** This plot illustrates the relationship between panel size and energy generation per year, along with the payback time.
 
 3. **Balance Over Time for Different Panel Sizes:** This plot displays the balance over time in euros for different panel sizes, allowing you to compare the financial aspects of your solar powerplant.
 
-## License
+## License 📜
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-Radiation data from 2006 and 2020 from [European Photoboltaic Geographical Information System](https://re.jrc.ec.europa.eu/api/v5_2/) using the amazing [pvlib](https://pvlib-python.readthedocs.io/en/stable/) library for the power 
-calculations.
+
+Radiation data from 2006 and 2020 from [European Photovoltaic Geographical Information System](https://re.jrc.ec.europa.eu/api/v5_2/) using the amazing [pvlib](https://pvlib-python.readthedocs.io/en/stable/) library for the complicated PV calculations.

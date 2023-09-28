@@ -6,9 +6,9 @@ panel_angle: 90
 system_losses: 0.05
 inverter_efficiency: 0.91
 max_inverter_power: 600
-panel_price_per_watt: 0.52
 energy_cost_per_kwh: 0.35
 installation_costs: 30
 subsidy_amount: 500
 pv_tech: crystSi
 panel_sizes: [600, 800, 1000, 1100, 1200, 1300, 1400]
+panel_price: 0.52
