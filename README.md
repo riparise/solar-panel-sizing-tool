@@ -4,8 +4,8 @@ The Solar Panel Sizing Tool is designed to help you analyze the ideal size of so
 
 This tool calculates various metrics, including energy generation and payback time, based on user-defined parameters and solar radiation data. It provides insights to optimize your solar power setup. 📊
 
-In general, it's worth considering a somewhat oversized panel (800-1400 Watts of nominal power) even if the inverter is limited to 600 watts (for the Berlin program). This ensures that you can still produce 600 watts even in suboptimal 
-conditions. ♻️
+In general, it's worth considering a somewhat oversized panel (e.g. 800-1400 Watts of nominal power) even if the inverter is limited to 600 watts (for the Berlin program). This ensures that you can still produce 600 watts even in 
+suboptimal conditions. ♻️
 
 ## Table of Contents
 - [Installation](#installation)
@@ -73,7 +73,7 @@ The tool generates three plots to help you analyze your solar panel sizing:
 
 1. **Average Hourly Energy Generation per kW of installed solar panels:** This plot shows the average historical solar generation (per kW of installed solar panel) throughout the day, categorized by seasons (Winter, Spring, Summer, Fall). Use this graph mostly for a sanity check if the 
    input is correct (e.g. if there is shadow in the early morning, you should see it in the graph).
-
+ch
 2. **Energy Generation and payoff time vs. panel size** This plot illustrates the relationship between panel size and energy generation per year, along with the payback time.
 
 3. **Return over time vs. panel size:** This plot displays the balance evolution in euros for different panel sizes, allowing you to compare the financial aspects of your solar powerplant.
@@ -82,4 +82,8 @@ The tool generates three plots to help you analyze your solar panel sizing:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Radiation data from 2006 and 2020 from [European Photovoltaic Geographical Information System](https://re.jrc.ec.europa.eu/api/v5_2/) using the amazing [pvlib](https://pvlib-python.readthedocs.io/en/stable/) library for the complicated PV calculations.
+Radiation data from 2006 and 2020 is taken from [European Photovoltaic Geographical Information System](https://re.jrc.ec.europa.eu/api/v5_2/) using the amazing [pvlib](https://pvlib-python.readthedocs.io/en/stable/) library for the 
+complicated PV calculations.
+
+This is my first public repo, so feel to leave any comments, suggestions or open merge request.
+
