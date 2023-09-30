@@ -58,7 +58,7 @@ To use the Solar Panel Sizing Tool, follow these steps:
 2. Run the main script using Python:
 
    ```bash
-   python solar_panel_sizing.py
+   python main.py
    ```
 
    The script will load the configuration from the `config.yml` file, retrieve solar radiation data, calculate trade-off metrics, and plot the results.
