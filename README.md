@@ -87,3 +87,4 @@ complicated PV calculations.
 
 This is my first public repo, so feel to leave any comments, suggestions or open merge request.
 
+Check also the [web version](https://berlin-balcony-solar-panel-sizing-tool.streamlit.app/) of this tool, made by [gniewus](https://github.com/gniewus)
